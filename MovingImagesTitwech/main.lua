@@ -22,7 +22,7 @@ local backgroundImage = display.newImageRect("Images/background.png", 2048, 1536
 local beetleship = display.newImageRect("Images/beetleship.png", 200, 200)
 
 -- set the image to be transparent
-beetleship.alpha = .5
+beetleship.alpha = 0
 
 -- set the initial x and y position of beetleship
 beetleship.x = 0
@@ -40,4 +40,4 @@ local function  MoveShip(event)
 end
 
 -- MoveShip will be called over and over again
-Runtime: addEventListener("enetrFrame", MoveShip)
+Runtime: addEventListener("enterFrame", MoveShip)
