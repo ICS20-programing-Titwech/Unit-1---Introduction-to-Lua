@@ -4,8 +4,8 @@
 --
 -----------------------------------------------------------------------------------------
 
--- -title:araeOfRectangleTitwech
---Name: titwech wal
+-- title:araeOfRectangleTitwech
+-- Name: titwech wal
 -- Course ICS20 programming
 --this program displays a rectangle and circle shows its area
  
