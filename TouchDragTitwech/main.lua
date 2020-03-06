@@ -51,6 +51,7 @@ local function blueGirlListener(touch)
 	if (touch.phase == "began") then 
 		if (alreadyTouchedPinkGirl == false) then
 			alreadyTouchedBlueGirl = true
+			alreadyTouchedGrayGirl = true
 		end
 	end
 
