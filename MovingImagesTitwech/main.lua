@@ -51,14 +51,14 @@ Runtime: addEventListener("enterFrame", MoveShip)
 local planet = display.newImageRect("Images/planet.png", 200, 200)
 
 -- set the image to be transparent
-planet.alpha = 0
+planet.alpha = 1
 
 -- set the initial x and y position of planet
 planet.x = 0
-planet.y = display.contentHeight/1.5
+planet.y = display.contentHeight/3
 
 -- set the initial x and y position of planet
-planet.x = 400
+planet.x = 900
 planet.y = 500
 
 -- Function: moveplanet
@@ -67,9 +67,9 @@ planet.y = 500
 -- Description: This function adds the scroll speed to the x-value of the planet
 local function  Moveplanet(event)
 	-- add the scroll speed to the x-value of the planet
-	planet.x = planet.x + scrollSpeed
+	planet.x = planet.x - scrollSpeed
 	-- change the transparency of the planet every time it moves so the it fades out
-	planet.alpha = planet.alpha + 0.01
+	planet.alpha = planet.alpha - 0.001
 end
 
 -- Moveplanet will be called over and over again
