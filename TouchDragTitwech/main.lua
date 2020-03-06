@@ -22,7 +22,7 @@ local blueGirl = display.newImageRect("Images/girl2.png", 150, 150)
 local blueGirlWidth = blueGirl.width
 local blueGirlHeight = blueGirl.height
 
-local grayGirl = display.newImageRect("Images/girl5.png", 150, 150)
+local grayGirl = display.newImageRect("Images/girl5.png", 175, 175)
 local grayGirlWidth = grayGirl.width
 local grayGirlHeight = grayGirl.height
 
@@ -51,7 +51,7 @@ local function blueGirlListener(touch)
 	if (touch.phase == "began") then 
 		if (alreadyTouchedPinkGirl == false) then
 			alreadyTouchedBlueGirl = true
-			alreadyTouchedGrayGirl = true
+			alreadyTouchedGrayGirl = false
 		end
 	end
 
@@ -63,6 +63,7 @@ local function blueGirlListener(touch)
 	if ( touch.phase == "ended") then
 		alreadyTouchedBlueGirl = false
 		alreadyTouchedPinkGirl = false
+		alreadyTouchedGrayGirl = false
 	end
 end
 
@@ -79,6 +80,7 @@ local function pinkGirlListener(touch)
 	if (touch.phase == "began") then 
 		if (alreadyTouchedBlueGirl == false) then
 			alreadyTouchedPinkGirl = true
+			alreadyTouchedGrayGirl = false
 		end
 	end
 
@@ -90,6 +92,7 @@ local function pinkGirlListener(touch)
 	if ( touch.phase == "ended") then
 		alreadyTouchedPinkGirl = false
 		alreadyTouchedBlueGirl = false
+		alreadyTouchedGrayGirl = false
 	end
 end
 
@@ -106,6 +109,7 @@ local function grayGirlListener(touch)
 	if (touch.phase == "began") then 
 		if (alreadyTouchedBlueGirl == false) then
 			alreadyTouchedGrayGirl = true
+			alreadyTouchedPinkGirl = false
 		end
 	end
 
@@ -117,6 +121,7 @@ local function grayGirlListener(touch)
 	if ( touch.phase == "ended") then
 		alreadyTouchedGrayGirl = false
 		alreadyTouchedBlueGirl = false
+		alreadyTouchedPinkGirl = false
 	end
 end
 
