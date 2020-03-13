@@ -25,7 +25,11 @@ local randomNumber2
 local userAnswer
 local correctAnswer
 local inCorrectAnswer 
-
+local points = 0
+local wrongAnswers
+local wrongAnswersText 
+local youWin
+local youLose 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -70,13 +74,18 @@ local function NumericFieldListener(event)
 		if (userAnswer == correctAnswer) then
 			correctObject.isVisible = true
 			timer.performWithDelay(2000, HideCorrect)
+			--give a point if user gets the correct answer
+			points = points + 1
+
+			-- update it in the display object
+			pointsText.text = "Points = " .. points
 		else
 
 			inCorrectAnswer.isVisible = true
 			timer.performWithDelay(2000, HideinCorrect)
-
-
 		end
+		event.target.text = ""
+
 
 	end		
 
@@ -103,6 +112,10 @@ inCorrectAnswer.isVisible = false
 -- Create numeric field
 numericField = native.newTextField( display.contentWidth/2, display.contentHeight/2.5, 150, 80 )
 numericField.inputType = "number"
+
+-- display the amount the points as a text object
+pointsText = display.newText("points = " .. points, display.contentWidth/5, display.contentHeight/6, nil, 50)
+pointsText:setTextColor(53/255, 107/255, 0/255)
 
 --add the event listener for the numeric field 
 numericField:addEventListener( "userInput", NumericFieldListener)
