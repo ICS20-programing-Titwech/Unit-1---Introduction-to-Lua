@@ -23,13 +23,15 @@ local numericField
 local randomNumber1
 local randomNumber2
 local userAnswer
-local correctAnswer
+local correctAnswer 
 local inCorrectAnswer 
 local points = 0
+local lives = 3
 local wrongAnswers
 local wrongAnswersText 
 local youWin
 local youLose 
+local myText
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -74,15 +76,42 @@ local function NumericFieldListener(event)
 		if (userAnswer == correctAnswer) then
 			correctObject.isVisible = true
 			timer.performWithDelay(2000, HideCorrect)
+		if(points == 4) then
+				youWin.isVisible = true
+				inCorrectAnswer.isVisible = false
+				correctObject.isVisible = false 
+				questionObject.isVisible = false
+				numericField.inputtype = false
+				pointsText.isVisible = false
+				livesText.isVisible = false
+			end
 			--give a point if user gets the correct answer
 			points = points + 1
 
 			-- update it in the display object
 			pointsText.text = "Points = " .. points
 		else
+			if(lives == 1) then
+				youLose.isVisible = true
+				inCorrectAnswer.isVisible = false
+				correctObject.isVisible = false 
+				questionObject.isVisible = false
+				numericField.inputtype = false
+				livesText.isVisible = false
+				pointsText.isVisible = false
+			else
+				--give a point if user gets the correct answer
+				lives = lives - 1
 
-			inCorrectAnswer.isVisible = true
-			timer.performWithDelay(2000, HideinCorrect)
+				-- update it in the display object
+				livesText.text = "lives = " .. lives
+
+				inCorrectAnswer.text = "Incorrect, the correct answer is " .. correctAnswer .. "."
+				inCorrectAnswer.isVisible = true
+				timer.performWithDelay(2000, HideinCorrect)
+			end
+		
+
 		end
 		event.target.text = ""
 
@@ -105,7 +134,7 @@ correctObject:setTextColor(25/255, 51/255, 0/255)
 correctObject.isVisible = false
 
 -- create the incorrect text object and make it invisible 
-inCorrectAnswer = display.newText("Incorrect", display.contentWidth/2, display.contentHeight*2/3, nil, 50 )
+inCorrectAnswer = display.newText("Incorrect, the correct answer is ", display.contentWidth/2, display.contentHeight*2/3, nil, 50 )
 inCorrectAnswer:setTextColor(252/255, 0/255, 0/255)
 inCorrectAnswer.isVisible = false
 
@@ -113,9 +142,25 @@ inCorrectAnswer.isVisible = false
 numericField = native.newTextField( display.contentWidth/2, display.contentHeight/2.5, 150, 80 )
 numericField.inputType = "number"
 
+-- displays you win
+youWin = display.newImageRect("Images/youWin.png", 500, 350)
+youWin.x = display.contentWidth/2
+youWin.y = display.contentHeight*3/4
+youWin.isVisible = false
+
+-- displays you win
+youLose = display.newImageRect("Images/youLose.png", 500, 350)
+youLose.x =  display.contentWidth/2
+youLose.y = display.contentHeight*3/4
+youLose.isVisible = false
+
 -- display the amount the points as a text object
 pointsText = display.newText("points = " .. points, display.contentWidth/5, display.contentHeight/6, nil, 50)
 pointsText:setTextColor(53/255, 107/255, 0/255)
+
+-- display the amount the points as a text object
+livesText = display.newText("lives = " .. lives, display.contentWidth/1.5, display.contentHeight/6, nil, 50)
+livesText:setTextColor(53/255, 107/255, 0/255)
 
 --add the event listener for the numeric field 
 numericField:addEventListener( "userInput", NumericFieldListener)
