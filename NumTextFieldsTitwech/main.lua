@@ -32,19 +32,74 @@ local wrongAnswersText
 local youWin
 local youLose 
 local myText
+local randomOperator
+local correctAnswer1
+
+-----------------------------------------------------------------------------------------
+-- SOUNDS
+-----------------------------------------------------------------------------------------
+local correctSound = audio.loadSound( "Sounds/correctSound.mp3") 
+local wrongSound = audio.loadSound( "Sounds/wrongSound.mp3") 
+local correctSoundChannel
+local wrongSoundChannel
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
 
 local function AskQuestion()
 	-- generate 2 random numbers between a max. and a min. numbers
-	randomNumber1 = math.random(0, 10)
-	randomNumber2 = math.random(0, 10)
+	randomNumber1 = math.random(1, 10)
+	randomNumber2 = math.random(1, 10)
 
 	correctAnswer = randomNumber1 + randomNumber2
 
 	--create questionin text object 
 	questionObject.text = randomNumber1 .. " + " .. randomNumber2 .. " = "
+
+	-- generate a random number bettween 1 and 2
+	randomOperator = math.random (1,4)
+
+	-- if the random operator is 1, then so addition
+	if	( randomOperator == 1 ) then
+
+		--calculate the correct answer
+		correctAnswer = randomNumber1 + randomNumber2
+
+		-- create  question in text object
+		questionObject.text = randomNumber1 .. " + " .. randomNumber2 .. " = "
+
+	-- otherwise, random operator is  2 , do sub.
+	elseif(randomOperator == 2 ) then 
+	
+		--calculate the correct answer
+		correctAnswer = randomNumber1 - randomNumber2
+		if( correctAnswer < 0) then 
+			correctAnswer = randomNumber2 - randomNumber1
+			questionObject.text = randomNumber2 .. " - " .. randomNumber1 .. " = "
+		else
+			-- create a question in text object 
+			questionObject.text =  randomNumber1 .. " - " ..  randomNumber2 .. "="
+		end
+
+	-- otherwise, random operator is  3, then do.
+	elseif(randomOperator == 3 ) then 
+		--calculate the correct answer
+		correctAnswer = randomNumber1 * randomNumber2
+		
+		--create question in text object
+		questionObject.text = randomNumber1 .. " x " .. randomNumber2 .. " = "
+
+	-- otherwise if random operator is 4 divied.
+	elseif(randomOperator == 4 ) then 
+		--calculate the correct answer
+		correctAnswer1 = randomNumber1 * randomNumber2
+		correctAnswer = correctAnswer1/randomNumber1
+		
+		--create question in text object
+		questionObject.text = correctAnswer1.. " ÷ " .. randomNumber1 .. " = "
+
+	end
+
 
 end 
 
@@ -75,6 +130,7 @@ local function NumericFieldListener(event)
 		-- if the users answer and the correct answer are the same:
 		if (userAnswer == correctAnswer) then
 			correctObject.isVisible = true
+			correctSoundChannel = audio.play(correctSound)
 			timer.performWithDelay(2000, HideCorrect)
 		if(points == 4) then
 				youWin.isVisible = true
@@ -108,6 +164,7 @@ local function NumericFieldListener(event)
 
 				inCorrectAnswer.text = "Incorrect, the correct answer is " .. correctAnswer .. "."
 				inCorrectAnswer.isVisible = true
+				wrongSoundChannel = audio.play(wrongSound)
 				timer.performWithDelay(2000, HideinCorrect)
 			end
 		
