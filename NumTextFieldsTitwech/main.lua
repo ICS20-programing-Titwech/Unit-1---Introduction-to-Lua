@@ -26,7 +26,7 @@ local userAnswer
 local correctAnswer 
 local inCorrectAnswer 
 local points = 0
-local lives = 3
+local lives = 4
 local wrongAnswers
 local wrongAnswersText 
 local youWin
@@ -34,7 +34,18 @@ local youLose
 local myText
 local randomOperator
 local correctAnswer1
+-- for the timer
+local totalSeconds = 10
+local secondsLeft = 10
+local clockText
+local countDownTimer
 
+local heart1 
+local heart2
+local heart3
+local heart4
+local incorrectObject
+local pointsObject
 -----------------------------------------------------------------------------------------
 -- SOUNDS
 -----------------------------------------------------------------------------------------
@@ -45,6 +56,7 @@ local wrongSoundChannel
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------------
+
 
 local function AskQuestion()
 	-- generate 2 random numbers between a max. and a min. numbers
@@ -129,17 +141,19 @@ local function NumericFieldListener(event)
 
 		-- if the users answer and the correct answer are the same:
 		if (userAnswer == correctAnswer) then
+			secondsLeft = totalSeconds
 			correctObject.isVisible = true
 			correctSoundChannel = audio.play(correctSound)
 			timer.performWithDelay(2000, HideCorrect)
-		if(points == 4) then
+			if(points == 4) then
+				stopTimer()
 				youWin.isVisible = true
 				inCorrectAnswer.isVisible = false
 				correctObject.isVisible = false 
 				questionObject.isVisible = false
 				numericField.inputtype = false
 				pointsText.isVisible = false
-				livesText.isVisible = false
+				
 			end
 			--give a point if user gets the correct answer
 			points = points + 1
@@ -147,39 +161,103 @@ local function NumericFieldListener(event)
 			-- update it in the display object
 			pointsText.text = "Points = " .. points
 		else
-			if(lives == 1) then
+			if(lives == 0) then
+				stopTimer()
+				heart4.isVisible = false
+				wrongSoundChannel = audio.play(wrongSound)
 				youLose.isVisible = true
 				inCorrectAnswer.isVisible = false
 				correctObject.isVisible = false 
 				questionObject.isVisible = false
 				numericField.inputtype = false
-				livesText.isVisible = false
 				pointsText.isVisible = false
 			else
 				--give a point if user gets the correct answer
 				lives = lives - 1
 
-				-- update it in the display object
-				livesText.text = "lives = " .. lives
-
 				inCorrectAnswer.text = "Incorrect, the correct answer is " .. correctAnswer .. "."
 				inCorrectAnswer.isVisible = true
+				secondsLeft = totalSeconds
 				wrongSoundChannel = audio.play(wrongSound)
 				timer.performWithDelay(2000, HideinCorrect)
+			
+			if (lives == 3 ) then
+				heart1.isVisible = false
+			elseif(lives == 2) then 
+				heart2.isVisible = false
+			elseif (lives == 1 ) then
+				heart3.isVisible = false
+			elseif(lives == 0) then 
+				heart4.isVisible = false
 			end
+
+			end	
 		
 
 		end
 		event.target.text = ""
-
+		
 
 	end		
 
 end 
+local function updateTime()
+	-- decrement the number of seconds
+	secondsLeft = secondsLeft - 1
 
+	--display the number of seconds left in the clock object
+	clockText.text = secondsLeft .. ""
+
+	if (secondsLeft == 0 ) then
+		-- reset the number of seconds left
+		secondsLeft = totalSeconds
+		lives = lives - 1
+		if(lives == 0) then
+			stopTimer()
+			heart4.isVisible = false
+			wrongSoundChannel = audio.play(wrongSound)
+			youLose.isVisible = true
+			inCorrectAnswer.isVisible = false
+			correctObject.isVisible = false 
+			questionObject.isVisible = false
+			numericField.inputtype = false
+			pointsText.isVisible = false
+		end
+	
+		if (lives == 3 ) then
+			heart1.isVisible = false
+		elseif(lives == 2) then 
+			heart2.isVisible = false
+		elseif (lives == 1 ) then
+			heart3.isVisible = false
+		elseif(lives == 0) then 
+			heart4.isVisible = false
+		end
+		AskQuestion()
+
+
+	end
+end
+
+
+-- function taht calls the timer
+local function StartTimer()
+	-- create s countdown timer that loops infinitely
+	countDownTimer = timer.performWithDelay ( 1000, updateTime, 0)
+end
+
+function stopTimer ()
+	timer.cancel(countDownTimer)
+end
 -----------------------------------------------------------------------------------------
 -- OBJECT CREATION
 -----------------------------------------------------------------------------------------
+
+-- create clocktext
+clockText = display.newText("".. secondsLeft,100, 100, nil, 50 )
+clockText:setTextColor(252/255, 0/255, 0/2555)
+clockText.x = 190
+clockText.y = 100
 
 -- displays a question and sets the colour 
 questionObject = display.newText( "", display.contentWidth/3, display.contentHeight/2.5, nil, 50 )
@@ -212,12 +290,29 @@ youLose.y = display.contentHeight*3/4
 youLose.isVisible = false
 
 -- display the amount the points as a text object
-pointsText = display.newText("points = " .. points, display.contentWidth/5, display.contentHeight/6, nil, 50)
+pointsText = display.newText("points = " .. points, display.contentWidth/5, display.contentHeight/5, nil, 50)
 pointsText:setTextColor(53/255, 107/255, 0/255)
 
--- display the amount the points as a text object
-livesText = display.newText("lives = " .. lives, display.contentWidth/1.5, display.contentHeight/6, nil, 50)
-livesText:setTextColor(53/255, 107/255, 0/255)
+-- crete the lives to display on the screen
+heart1 = display.newImageRect("Images/heart.png" , 100, 100)
+heart1.x = display.contentWidth  * 7/8
+heart1.y = display.contentHeight * 1/7
+
+heart2 = display.newImageRect("Images/heart.png" , 100, 100)
+heart2.x = display.contentWidth  * 6/8
+heart2.y = display.contentHeight * 1/7
+
+heart3 = display.newImageRect("Images/heart.png" , 100, 100)
+heart3.x = display.contentWidth  * 5/8
+heart3.y = display.contentHeight * 1/7
+
+heart4 = display.newImageRect("Images/heart.png" , 100, 100)
+heart4.x = display.contentWidth  * 4/8
+heart4.y = display.contentHeight * 1/7
+
+countDownTimer = display.newText("5" , 100, 100)
+countDownTimer = display.contentWidth  * 4/8
+countDownTimer = display.contentHeight * 1/7
 
 --add the event listener for the numeric field 
 numericField:addEventListener( "userInput", NumericFieldListener)
@@ -228,3 +323,4 @@ numericField:addEventListener( "userInput", NumericFieldListener)
 
 --call the function to ask the question 
 AskQuestion()
+StartTimer()

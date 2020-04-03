@@ -11,15 +11,10 @@ display.setDefault ("background", 198/255, 255/255, 207/255)
 -- hide stauts bar 
 display.setStatusBar(display.HiddenStatusBar)
 
-<<<<<<< HEAD
--- create checkmark, set it's position and make it invisible
-local checkmark = display.newImageRect("checkmark.png", 198, 96)
-checkmark.x = display.contentWidth/2
-=======
 -- correct sound
 local correctSound = audio.loadSound("Sounds/Correct Answer Sound Effect.mp3") 
 local correctSoundChannel 
->>>>>>> 6e18b306c1c35b0c1889bcc8958e90f95db39a8d
+
 
 -- create blue button, set it's position and make it visible
 local blueButton = display.newImageRect("Images/Fast Button Inactive@2x.png",198, 96)
@@ -41,15 +36,11 @@ textObject.y = display.contentHeight/3
 textObject:setTextColor (10/255, 11/255, 159/255)
 textObject.isVisible = false
 
-<<<<<<< HEAD
-=======
 -- create check mark, set it's position and make it visible
 local checkmark = display.newImageRect("Images/checkmark.png",198, 96)
 checkmark.x = display.contentWidth/2
 checkmark.y = display.contentHeight/4
 checkmark.isVisible = false
- 
->>>>>>> 6e18b306c1c35b0c1889bcc8958e90f95db39a8d
 
 -- Fuction: blueButtonListener
 -- Input: touch listener
@@ -89,10 +80,7 @@ local function redButtonListener( touch )
 		checkmark.isVisible = false
 		blueButton.isVisible = true
 		textObject.isVisible = false
-<<<<<<< HEAD
-=======
-	
->>>>>>> 6e18b306c1c35b0c1889bcc8958e90f95db39a8d
+
 	end
 end
 
