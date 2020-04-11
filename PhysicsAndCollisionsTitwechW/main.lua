@@ -6,6 +6,11 @@
 --  program that has objects that fall and collide with the ground. 
 --I added extra objects and modified the location of the angle of the beam.
 -----------------------------------------------------------------------------------------
+-----------------------------SOUNDS------------------------------------------------------------
+
+local correctSound = audio.loadSound( "Sounds/wii.mp3") 
+local wii
+wiiChannel = audio.play(wii)
 
 -- -- hide the status bar
 display.setStatusBar(display.HiddenStatusBar)

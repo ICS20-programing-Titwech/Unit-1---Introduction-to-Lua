@@ -4,8 +4,12 @@
 -- Name: Titwech Wal
 -- Course: ICS2O/3C
 -- This program makes a mole appear on the screen for an amount of time and then disappears
------------------------------------------------------------------------------------------
+----------------------------------------LOCAL VARIABLES-------------------------------------
 
+local mole
+local points text
+
+----------------------------------------LOCAL FUNCTIONS-------------------------------------
 
 -- -- hide the status bar
 display.setStatusBar(display.HiddenStatusBar)
@@ -67,4 +71,35 @@ function PopUpDelay()
     timer.performWithDelay( 3000, PopUp)
 end
  
--- this Function makes the mole invisable and then calls th epopundelay function
+
+-- this funcrtion makes the mole inviable and then calls the popupdelay
+function HideMole()
+    -- changes visiblity
+    mole.isVisible = false
+    time.performWithDelay(1000, PopUpDelay)
+end
+
+-- this function increnment the score only if the mole mole is clicked it then displays the 
+--new score
+function Whacked(event)
+    -- if touch phase just started
+    if(event.phase == "began") then
+        --give it in the display objects
+        pointsText.text = "Points ="..points
+        hitSoundChannel = audio.play(hitSound)
+    end
+end
+
+function EndGame()
+    --end the game
+    if(points == 2) then
+        mole.isVisible = false
+        audio.stop(backgroundSoundChannel)
+    end
+end
+
+-- function starts the game
+function GameStart()
+    PopUpDelay()
+    EndGame()
+end
